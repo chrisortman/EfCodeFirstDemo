@@ -16,12 +16,13 @@ namespace EfCodeFirstDemo.App
 
             context.SaveChanges();
 
+            Console.WriteLine("All Done");
             Console.ReadLine();
 
         }
     }
 
-    internal class Customer
+    public class Customer
     {
         public int ID { get; set; }
 
@@ -35,8 +36,10 @@ namespace EfCodeFirstDemo.App
         }
     }
 
-    internal class DemoEntities : DbContext
+
+    public class DemoEntities : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
     }
+
 }
