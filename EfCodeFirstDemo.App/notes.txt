@@ -1,0 +1,4 @@
+﻿PREREQUISITES
+SP1,NuGet, SQLCompact tools 
+
+Setup connection string
