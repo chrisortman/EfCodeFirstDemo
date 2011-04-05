@@ -10,27 +10,42 @@ namespace EfCodeFirstDemo.App
     {
         static void Main(string[] args)
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DemoEntities>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FamilyMembers>());
 
-            var context = new DemoEntities();
-            var customer = new Person
+            var context = new FamilyMembers();
+            var ethan = new Address()
+            {
+                City = "Ethan",
+                State = "SD",
+                Zip = "57334"
+            };
+            var customer = new Dad
             {
                 Name = "Chris", 
                 Birthday = new DateTime(1979, 12, 6),
-                Address = new Address()
+                Address = ethan,
+                Kids = new List<Kid>
                 {
-                    City = "Ethan",
-                    State = "SD",
-                    Zip = "57334"
+                    new Kid()
+                    {
+                        Name = "Damon",
+                        Birthday = DateTime.Parse("12/4/2003"),
+                        
+                    },
+                    new Kid()
+                    {
+                        Name = "Mason",
+                        Birthday = DateTime.Parse("2/27/2005"),
+                    }
                 }
             };
 
-            context.Customers.Add(customer);
+            context.Dads.Add(customer);
 
             context.SaveChanges();
 
             Console.WriteLine("======Customers======");
-            foreach(var c in context.Customers)
+            foreach(var c in context.Dads)
             {
                 Console.WriteLine(c.ToString());
             }
@@ -41,20 +56,41 @@ namespace EfCodeFirstDemo.App
         }
     }
 
-    public class Person
+    public class Dad
     {
+        public Dad()
+        {
+            Kids = new List<Kid>();
+        }
+
         public int ID { get; set; }
 
         public string Name { get; set; }
 
         public DateTime Birthday { get; set; }
 
+        
         public Address Address { get; set; }
+
+        public List<Kid> Kids { get; set; }
 
         public override string ToString()
         {
-            return String.Format("[{0}] {1} was born on {2} and lives at {3}", ID, Name, Birthday, Address);
+            var s=  String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, Name, Birthday, Address);
+            s += String.Format("\t{0} has {1} kids", Name, Kids.Count);
+            if(Kids.Count > 0)
+            {
+                s += String.Format(" their names are {0}", String.Join(",", Kids.Select(x => x.Name)));
+            }
+            return s;
         }
+    }
+
+    public class Kid
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public DateTime Birthday { get; set; }
     }
 
     public class Address
@@ -70,9 +106,9 @@ namespace EfCodeFirstDemo.App
     }
 
 
-    public class DemoEntities : DbContext
+    public class FamilyMembers : DbContext
     {
-        public DbSet<Person> Customers { get; set; }
+        public DbSet<Dad> Dads { get; set; }
     }
 
 }
