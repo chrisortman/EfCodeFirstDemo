@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
+using HibernatingRhinos.Profiler.Appender.EntityFramework;
 
 namespace EfCodeFirstDemo.App
 {
@@ -10,6 +12,8 @@ namespace EfCodeFirstDemo.App
     {
         static void Main(string[] args)
         {
+   //         Database.DefaultConnectionFactory = new SqlCeConnectionFactory("System.Data.SqlServerCe.4.0");
+			EntityFrameworkProfiler.Initialize();
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FamilyMembers>());
 
             var context = new FamilyMembers();
@@ -19,7 +23,7 @@ namespace EfCodeFirstDemo.App
                 State = "SD",
                 Zip = "57334"
             };
-            var customer = new Dad
+            var chris = new Dad
             {
                 Name = "Chris", 
                 Birthday = new DateTime(1979, 12, 6),
@@ -40,19 +44,30 @@ namespace EfCodeFirstDemo.App
                 }
             };
 
-            context.Dads.Add(customer);
+            context.Dads.Add(chris);
 
             context.SaveChanges();
 
-            Console.WriteLine("======Customers======");
-            foreach(var c in context.Dads)
-            {
-                Console.WriteLine(c.ToString());
-            }
-            
+            PrintDads();
+
+            var clara = new Kid() {Name = "Clara", Birthday = DateTime.Parse("1/19/2010")};
+            chris.Kids.Add(clara);
+
+            PrintDads();
+
             Console.WriteLine("All Done");
             Console.ReadLine();
 
+        }
+
+        private static void PrintDads()
+        {
+            Console.WriteLine("======Dads======");
+            var family = new FamilyMembers();
+            foreach(var c in family.Dads.Include(x => x.Kids))
+            {
+                Console.WriteLine(c.ToString());
+            }
         }
     }
 
@@ -68,11 +83,10 @@ namespace EfCodeFirstDemo.App
         public string Name { get; set; }
 
         public DateTime Birthday { get; set; }
-
         
         public Address Address { get; set; }
 
-        public List<Kid> Kids { get; set; }
+        public virtual List<Kid> Kids { get; set; }
 
         public override string ToString()
         {
