@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.IO;
@@ -27,7 +28,7 @@ namespace EfCodeFirstDemo.App
 
         protected void Seed(FamilyMembers context)
         {
-            var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.Name == "Chris");
+            var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.FirstName == "Chris");
             if(chris != null)
             {
                 chris.Kids.Clear();
@@ -45,7 +46,7 @@ namespace EfCodeFirstDemo.App
 
             chris = new Dad
             {
-                Name = "Chris", 
+                FirstName = "Chris", 
                 Birthday = new DateTime(1979, 12, 6),
                 Address = ethan,
                 Kids = new List<Kid>
@@ -81,9 +82,9 @@ namespace EfCodeFirstDemo.App
 
             Console.WriteLine("========= after initialization ===========");
             var context = new FamilyMembers();
-            
+
             //since i know i've only just created 1 dad, i just hardcode the ID
-            var chris = context.Dads.First(x => x.Name == "Chris");
+            var chris = context.Dads.First(x => x.FirstName == "Chris");
 
             var clara = new Kid() {Name = "Clara", Birthday = DateTime.Parse("1/19/2010")};
             chris.Kids.Add(clara);
@@ -119,7 +120,8 @@ namespace EfCodeFirstDemo.App
 
         public int ID { get; set; }
 
-        public string Name { get; set; }
+        [Column("Name")]
+        public string FirstName { get; set; }
 
         public DateTime Birthday { get; set; }
         
@@ -129,8 +131,8 @@ namespace EfCodeFirstDemo.App
 
         public override string ToString()
         {
-            var s=  String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, Name, Birthday, Address);
-            s += String.Format("\t{0} has {1} kids", Name, Kids.Count);
+            var s=  String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, FirstName, Birthday, Address);
+            s += String.Format("\t{0} has {1} kids", FirstName, Kids.Count);
             if(Kids.Count > 0)
             {
                 s += String.Format(" their names are {0}", String.Join(",", Kids.Select(x => x.Name)));
@@ -162,6 +164,11 @@ namespace EfCodeFirstDemo.App
     public class FamilyMembers : DbContext
     {
         public DbSet<Dad> Dads { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            
+        }
     }
 
 }
