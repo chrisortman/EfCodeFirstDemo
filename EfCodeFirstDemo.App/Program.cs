@@ -86,7 +86,7 @@ namespace EfCodeFirstDemo.App
             //since i know i've only just created 1 dad, i just hardcode the ID
             var chris = context.Dads.First(x => x.FirstName == "Chris");
 
-            var clara = new Kid() {Name = "Clara", Birthday = DateTime.Parse("1/19/2010")};
+            var clara = new Kid() {Name = "Clara", Birthday = DateTime.Parse("1/21/2009")};
             chris.Kids.Add(clara);
 
             context.SaveChanges();
@@ -135,7 +135,7 @@ namespace EfCodeFirstDemo.App
             s += String.Format("\t{0} has {1} kids", FirstName, Kids.Count);
             if(Kids.Count > 0)
             {
-                s += String.Format(" their names are {0}", String.Join(",", Kids.Select(x => x.Name)));
+                s += String.Format(" their names are {0}", String.Join(",", Kids.Select(x => x.ToString())));
             }
             return s;
         }
@@ -146,6 +146,18 @@ namespace EfCodeFirstDemo.App
         public int ID { get; set; }
         public string Name { get; set; }
         public DateTime Birthday { get; set; }
+
+        public TimeSpan Age
+        {
+            get { return DateTime.Now - Birthday; }
+        }
+
+        public override string ToString()
+        {
+            int remainder;
+            int years = Math.DivRem(Convert.ToInt32(Age.TotalDays), 365, out remainder);
+            return String.Format("{0} who is {1} years and {2} days old", Name, years,remainder);
+        }
     }
 
     public class Address
