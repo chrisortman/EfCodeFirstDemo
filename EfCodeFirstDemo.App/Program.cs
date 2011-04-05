@@ -47,7 +47,7 @@ namespace EfCodeFirstDemo.App
             chris = new Dad
             {
                 FirstName = "Chris", 
-                Birthday = new DateTime(1979, 12, 6),
+                DayOfBirth = new DateTime(1979, 12, 6),
                 Address = ethan,
                 Kids = new List<Kid>
                 {
@@ -123,7 +123,7 @@ namespace EfCodeFirstDemo.App
         [Column("Name")]
         public string FirstName { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateTime DayOfBirth { get; set; }
         
         public Address Address { get; set; }
 
@@ -131,7 +131,7 @@ namespace EfCodeFirstDemo.App
 
         public override string ToString()
         {
-            var s=  String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, FirstName, Birthday, Address);
+            var s=  String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, FirstName, DayOfBirth, Address);
             s += String.Format("\t{0} has {1} kids", FirstName, Kids.Count);
             if(Kids.Count > 0)
             {
@@ -167,7 +167,9 @@ namespace EfCodeFirstDemo.App
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<Dad>()
+                .Property(x => x.DayOfBirth).HasColumnName("Birthday");
+
         }
     }
 
