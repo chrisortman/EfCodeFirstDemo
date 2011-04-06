@@ -1,0 +1,59 @@
+﻿@model DemoWebApp.Controllers.DumpModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/content/site.css")" />
+</head>
+<body>
+    <div>
+         <ul>
+          @foreach(var table in Model.Tables) {
+            <li>
+            <h2>Table @table.Name</h2>
+
+            <table>
+              <tr>
+                <th>column name</th>
+                <th>column type</th>
+              </tr>
+
+              @foreach(var col in table.Columns) {
+                <tr>
+                  <td>
+                    @col.Name
+                  </td>
+                  <td>
+                    @col.Type
+                  </td>
+                </tr>
+                }
+            </table>
+            
+            <table border="1" cellpadding="2" cellspacing="0">
+              <tr>
+                @foreach(var col in table.Columns) {
+                  <th>@col.Name</th>
+                  }
+              </tr>
+              @foreach(var row in table.Data) {
+                <tr>
+                  @foreach(var item in row) {
+                    <td>@item</td>
+                    }
+                </tr>
+                }
+            </table>
+            </li>
+            }
+         </ul>
+    </div>
+    <div>
+      
+    </div>
+</body>
+</html>
