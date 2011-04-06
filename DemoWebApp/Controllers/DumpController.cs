@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlServerCe;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using SqlMapper;
 
@@ -19,58 +20,64 @@ namespace DemoWebApp.Controllers
     {
         //
         // GET: /Dump/
-
+        
         public ActionResult Index()
         {
             List<Table> tables = new List<Table>();
 
             var connectionString = ConfigurationManager.ConnectionStrings["FamilyMembers"].ConnectionString;
-            using(var connection = new SqlCeConnection(connectionString))
+
+            
+
+            if(System.IO.File.Exists(HostingEnvironment.MapPath("~/App_Data/FamilyMembersDemo.sdf")))
             {
-                connection.Open();
-
-                var schemaTables = connection.ExecuteMapperQuery("select TABLE_NAME from information_schema.tables");
-                
-                foreach(var schemaTable in schemaTables)
+                using(var connection = new SqlCeConnection(connectionString))
                 {
-                    if(schemaTable.TABLE_NAME == "EdmMetadata")
-                    {
-                        continue;                        
-                    }
-                    var table = new Table()
-                    {
-                        Name = schemaTable.TABLE_NAME
-                    };
+                    connection.Open();
 
-                    var columns =
-                        connection.ExecuteMapperQuery(
-                            "select * from information_schema.columns where TABLE_NAME = @TableName",
-                            new {TableName = table.Name});
+                    var schemaTables = connection.ExecuteMapperQuery("select TABLE_NAME from information_schema.tables");
 
-                    table.Columns = columns.Select(x => new Column()
+                    foreach(var schemaTable in schemaTables)
                     {
-                        Name = x.COLUMN_NAME,
-                        Type = x.DATA_TYPE + "(" + x.CHARACTER_MAXIMUM_LENGTH + ")",
-
-                    }).ToArray();
-
-                    
-                    var dataSql = "select * from " + table.Name;
-                    var command = connection.CreateCommand();
-                    command.CommandText = dataSql;
-                    using(var reader = command.ExecuteReader())
-                    {
-                        while(reader.Read())
+                        if(schemaTable.TABLE_NAME == "EdmMetadata")
                         {
-                            var data = new object[reader.FieldCount];
-                            reader.GetValues(data);
-                            table.Data.Add(data);
+                            continue;
                         }
+                        var table = new Table()
+                        {
+                            Name = schemaTable.TABLE_NAME
+                        };
+
+                        var columns =
+                            connection.ExecuteMapperQuery(
+                                "select * from information_schema.columns where TABLE_NAME = @TableName",
+                                new {TableName = table.Name});
+
+                        table.Columns = columns.Select(x => new Column()
+                        {
+                            Name = x.COLUMN_NAME,
+                            Type = x.DATA_TYPE + "(" + x.CHARACTER_MAXIMUM_LENGTH + ")",
+
+                        }).ToArray();
+
+
+                        var dataSql = "select * from " + table.Name;
+                        var command = connection.CreateCommand();
+                        command.CommandText = dataSql;
+                        using(var reader = command.ExecuteReader())
+                        {
+                            while(reader.Read())
+                            {
+                                var data = new object[reader.FieldCount];
+                                reader.GetValues(data);
+                                table.Data.Add(data);
+                            }
+                        }
+
+                        tables.Add(table);
                     }
 
-                    tables.Add(table);
                 }
-                
             }
 
             var demoSvc = new DemoService();

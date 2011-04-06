@@ -6,13 +6,29 @@ using System.Linq;
 
 namespace DemoWebApp.Models.Attributes
 {
+    [ExportDemo("reset - attributes")]
+    public class Reset : IDemo
+    {
+        #region Implementation of IDemo
+
+        public void Run()
+        {
+            Database.SetInitializer(new OrtmanFamilyInitializer());
+            var context = new FamilyMembersWithAttributes();
+            context.Database.Delete();
+            context.Database.Initialize(true);
+        }
+
+        #endregion
+    }
+
     [ExportDemo("attributes")]
     public class Demo : IDemo
     {
         public void Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
-            var context = new FamilyMembers();
+            var context = new FamilyMembersWithAttributes();
 
             //since i know i've only just created 1 dad, i just hardcode the ID
             var chris = context.Dads.First(x => x.FirstName == "Chris");
@@ -26,8 +42,12 @@ namespace DemoWebApp.Models.Attributes
         }
     }
 
-    public class FamilyMembers : DbContext
+    public class FamilyMembersWithAttributes : DbContext
     {
+        public FamilyMembersWithAttributes() : base("FamilyMembers")
+        {
+        }
+
         public DbSet<Dad> Dads { get; set; }
 
         public DbSet<Message> Messages { get; set; }
@@ -126,9 +146,9 @@ namespace DemoWebApp.Models.Attributes
         }
     }
 
-    public class OrtmanFamilyInitializer : DropCreateDatabaseAlways<FamilyMembers>
+    public class OrtmanFamilyInitializer : DropCreateDatabaseAlways<FamilyMembersWithAttributes>
     {
-        protected override void Seed(FamilyMembers context)
+        protected override void Seed(FamilyMembersWithAttributes context)
         {
             var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.FirstName == "Chris");
             if(chris != null)
@@ -167,6 +187,8 @@ namespace DemoWebApp.Models.Attributes
             };
 
             context.Dads.Add(chris);
+
+            base.Seed(context);
         }
     }
 }
