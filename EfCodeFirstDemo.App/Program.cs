@@ -10,23 +10,10 @@ using HibernatingRhinos.Profiler.Appender.EntityFramework;
 
 namespace EfCodeFirstDemo.App
 {
-    public class OrtmanFamilyInitializer : IDatabaseInitializer<FamilyMembers>
+
+    public class OrtmanFamilyInitializer : DropCreateDatabaseAlways<FamilyMembers>
     {
-        #region Implementation of IDatabaseInitializer<in FamilyMembers>
-
-        /// <summary>
-        /// Executes the strategy to initialize the database for the given context.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        public void InitializeDatabase(FamilyMembers context)
-        {
-            Seed(context);
-            context.SaveChanges();
-        }
-
-        #endregion
-
-        protected void Seed(FamilyMembers context)
+        protected override void Seed(FamilyMembers context)
         {
             var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.FirstName == "Chris");
             if(chris != null)
@@ -73,7 +60,7 @@ namespace EfCodeFirstDemo.App
     {
         static void Main(string[] args)
         {
-			EntityFrameworkProfiler.Initialize();
+			//EntityFrameworkProfiler.Initialize();
 
             //have to do this b4 profiler, since profiler doesn't like create / delete database
             Database.SetInitializer(new OrtmanFamilyInitializer());
@@ -111,6 +98,8 @@ namespace EfCodeFirstDemo.App
         }
     }
 
+    
+    [Table("Dads")]
     public class Dad
     {
         public Dad()
@@ -118,15 +107,19 @@ namespace EfCodeFirstDemo.App
             Kids = new List<Kid>();
         }
 
+        [Key]
         public int ID { get; set; }
 
         [Column("Name")]
+        [MaxLength(50)]
         public string FirstName { get; set; }
 
+        [Column("Birthday")]
         public DateTime DayOfBirth { get; set; }
-        
+                
         public Address Address { get; set; }
 
+        
         public virtual List<Kid> Kids { get; set; }
 
         public override string ToString()
@@ -141,10 +134,16 @@ namespace EfCodeFirstDemo.App
         }
     }
 
+    [Table("Kids")]
     public class Kid
     {
+        [Key]
         public int ID { get; set; }
+        
+        [Column]
         public string Name { get; set; }
+        
+        [Column]
         public DateTime Birthday { get; set; }
 
         public TimeSpan Age
@@ -160,10 +159,16 @@ namespace EfCodeFirstDemo.App
         }
     }
 
+    [ComplexType]
     public class Address
     {
+        [Column]
         public string City { get; set; }
+
+        [Column]
         public string State { get; set; }
+
+        [Column]
         public string Zip { get; set; }
 
         public override string ToString()
