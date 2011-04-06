@@ -8,9 +8,21 @@
 <head>
     <title>Index</title>
     <link rel="Stylesheet" type="text/css" href="@Url.Content("~/content/site.css")" />
+    <style>
+      .demos li {float:left; margin-left:5px;list-style-position:inside;}
+    </style>
 </head>
 <body>
-    <div>
+<div>
+  <h1>Demos</h1>
+  <ul class="demos">
+    @foreach(var demo in Model.Demos) {
+      <li>@Html.RouteLink(demo,"DemoUrl",new{demoName= demo})</li>
+      }
+  </ul>
+</div>
+    <div style="clear:both;">
+    <h1>Tables</h1>
          <ul>
           @foreach(var table in Model.Tables) {
             <li>

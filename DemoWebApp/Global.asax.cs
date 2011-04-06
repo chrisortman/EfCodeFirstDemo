@@ -21,6 +21,8 @@ namespace DemoWebApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("DemoUrl", "demo/{demoName}", new {controller = "Demo", action = "index"});
+            routes.MapRoute("DumpUrl", "dump", new {controller = "Dump", action = "index"});
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters

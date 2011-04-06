@@ -1,12 +1,18 @@
 using System;
+using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
+using SqlMapper;
 
 namespace DemoWebApp.Models.Conventions
 {
-    public class Demo
+    
+    [ExportDemo("conventions")]
+    //[Export(typeof(IDemo))]
+    //[ExportMetadata("DemoName","conventions")]
+    public class Demo : IDemo
     {
         public void Run()
         {

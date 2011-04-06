@@ -11,6 +11,7 @@ namespace DemoWebApp.Controllers
 {
     public class DumpModel
     {
+        public IEnumerable<string> Demos { get; set; }
         public IEnumerable<Table> Tables { get; set; }
     }
 
@@ -72,8 +73,14 @@ namespace DemoWebApp.Controllers
                 
             }
 
-            
-            return View(new DumpModel() { Tables = tables});
+            var demoSvc = new DemoService();
+
+
+            return View(new DumpModel()
+            {
+                Tables = tables,
+                Demos = demoSvc.ListDemos()
+            });
         }
 
     }
