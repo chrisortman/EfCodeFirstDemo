@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeTrackingExamples.cs" />
+    <Compile Include="FindByIdExample.cs" />
     <Compile Include="Fluent_OrtmanFamily.cs" />
     <Compile Include="FullOrtmanFamilyInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

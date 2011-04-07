@@ -26,3 +26,13 @@ System.IO.IOException: The process cannot access the file 'C:\Users\ChrisO\AppDa
 2011-04-07 10:59:17,908 [17] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
 2011-04-07 11:04:17,929 [17] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
 2011-04-07 11:09:17,947 [3] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
+2011-04-07 11:14:17,966 [17] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
+2011-04-07 11:16:18,602 [17] DEBUG HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - Need to display in VS: C:\Code\EfCodeFirstDemo\Entities.Fluent\FindByIdExample.cs
+2011-04-07 11:16:20,572 [3] DEBUG HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - Need to display in VS: C:\Code\EfCodeFirstDemo\Entities.Fluent\FindByIdExample.cs
+2011-04-07 11:16:21,450 [19] DEBUG HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - Need to display in VS: C:\Code\EfCodeFirstDemo\Entities.Fluent\FindByIdExample.cs
+2011-04-07 11:16:24,191 [17] WARN  HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - Trying to ask nicely from VS to activate has failed, trying to use SetForegroundWindow for the task
+2011-04-07 11:16:24,191 [19] WARN  HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - Trying to ask nicely from VS to activate has failed, trying to use SetForegroundWindow for the task
+2011-04-07 11:16:24,191 [3] WARN  HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - Trying to ask nicely from VS to activate has failed, trying to use SetForegroundWindow for the task
+2011-04-07 11:16:24,195 [3] DEBUG HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - SetForegroundWindow returned: False
+2011-04-07 11:16:24,195 [17] DEBUG HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - SetForegroundWindow returned: False
+2011-04-07 11:16:24,195 [19] DEBUG HibernatingRhinos.Profiler.Client.Services.StackTraceExplorer [(null)] - SetForegroundWindow returned: False
