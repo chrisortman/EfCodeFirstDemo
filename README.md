@@ -29,4 +29,6 @@ Topics
   * After the HasMany() the next calls describe the relation ship on the <child> object
 * Nullability of property is taken into account when schema is created
   
+* Can generate edmx from database still
+  * To use sql ce 4 database you have to do it from web project
     
