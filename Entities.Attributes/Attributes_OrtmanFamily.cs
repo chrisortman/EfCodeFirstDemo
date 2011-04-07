@@ -89,7 +89,7 @@ namespace DemoWebApp.Models.Attributes
 
         public Address Address { get; set; }
 
-
+        
         public virtual List<Kid> Kids { get; set; }
 
         public override string ToString()
@@ -114,6 +114,12 @@ namespace DemoWebApp.Models.Attributes
 
         [Column]
         public DateTime Birthday { get; set; }
+
+        [Column("Attributes_DadID")]
+        public int DadID { get; set; }
+
+        [ForeignKey("DadID")]
+        public virtual Dad MyDad { get; set; }
 
         public TimeSpan Age
         {

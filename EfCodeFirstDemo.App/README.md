@@ -20,7 +20,11 @@ Topics
   * HasMany
     * Properties will just silently not work if non-virtual
     * Notice the generated column name Table_ID
+      * Can fix this up in attributes by delcaring property on the other side of the model
+      * Have to do the ID and ForeignKey as 2 separate properties.
     * EfProf points out a select N+1 problem when looping over customers and checking children.
-     * Can get rid of alert by using Include
+      * Can get rid of alert by using Include
     * By default can not remove parent without removing children
     * Cant really do much config via the attributes.
+    * After the HasMany() the next calls describe the relation ship on the <child> object
+    

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 
 namespace DemoWebApp.Models.Fluent
@@ -54,6 +55,7 @@ namespace DemoWebApp.Models.Fluent
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            
             var dadEntity = modelBuilder.Entity<Dad>();
 
             dadEntity
@@ -61,7 +63,7 @@ namespace DemoWebApp.Models.Fluent
             dadEntity.Property(x => x.FirstName);
             dadEntity.Property(x => x.DayOfBirth);
             //no way to say that address on dad is complex
-            dadEntity.HasMany(x => x.Kids).WithOptional();
+            dadEntity.HasMany(x => x.Kids).WithRequired().Map(x => x.MapKey("Fluent_DadID"));
             
                 
             var messageEntity = modelBuilder.Entity<Message>();
