@@ -52,6 +52,7 @@ namespace DemoWebApp.Controllers
                         {
                             Name = x.COLUMN_NAME,
                             Type = x.DATA_TYPE + "(" + x.CHARACTER_MAXIMUM_LENGTH + ")",
+                            Nullable = x.IS_NULLABLE
 
                         }).ToArray();
 

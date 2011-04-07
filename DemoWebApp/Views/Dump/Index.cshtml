@@ -8,19 +8,42 @@
 <head>
     <title>Index</title>
     <link rel="Stylesheet" type="text/css" href="@Url.Content("~/content/site.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")"></script>
     <style>
       .demos li {float:left; margin-left:5px;list-style-position:inside;}
     </style>
+
+    <script>
+      $(document).ready(function () {
+        $('#run_demo').click(function () {
+          var url = $('#demo_list').val();
+          $(this).closest('form').attr('action', url);
+          $(this).closest('form').submit();
+        });
+      });
+    </script>
 </head>
 <body>
 <div>
   <h1>Demos</h1>
-  <ul class="demos">
+  <form method="post">
+  <select id="demo_list">
     @foreach(var demo in Model.Demos) {
-      <li>@Html.RouteLink(demo,"DemoUrl",new{demoName= demo})</li>
+      <option value="@Url.RouteUrl("DemoUrl",new{demoName=demo})">@demo</option>
       }
+  </select>
+  <input id="run_demo" type="button" value="Run Demo" />
+  </form>
+</div>
+@if(TempData.ContainsKey("errorMessages")) {
+<div>
+  <ul>
+    @foreach(var m in (IEnumerable<string>) TempData["errorMessages"]) {
+      <li>@m</li>
+    }
   </ul>
 </div>
+}
     <div style="clear:both;">
     <h1>Tables</h1>
          <ul>
@@ -32,6 +55,7 @@
               <tr>
                 <th>column name</th>
                 <th>column type</th>
+                <th>is nullable</th>
               </tr>
 
               @foreach(var col in table.Columns) {
@@ -41,6 +65,9 @@
                   </td>
                   <td>
                     @col.Type
+                  </td>
+                  <td>
+                    @col.Nullable
                   </td>
                 </tr>
                 }

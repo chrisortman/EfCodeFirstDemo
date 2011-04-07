@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 namespace DemoWebApp.Models
@@ -17,7 +18,7 @@ namespace DemoWebApp.Models
 
     public interface IDemo
     {
-        void Run();
+        IEnumerable<string> Run();
     }
 
     public interface IDemoMetadata

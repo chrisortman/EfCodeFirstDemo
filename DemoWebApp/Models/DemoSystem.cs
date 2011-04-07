@@ -29,11 +29,11 @@ namespace DemoWebApp.Models
 
         }
 
-        public void RunDemo(string demoName)
+        public IEnumerable<string> RunDemo(string demoName)
         {
             var demos = _container.GetExports<IDemo,IDemoMetadata>();
             var demo = demos.First(x => x.Metadata.DemoName == demoName);
-            demo.Value.Run();
+            return demo.Value.Run();
         }
     }
 }

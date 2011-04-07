@@ -11,12 +11,14 @@ namespace DemoWebApp.Models.Fluent
     {
         #region Implementation of IDemo
 
-        public void Run()
+        public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
             var context = new FamilyMembersWithFluentConfiguration();
             context.Database.Delete();
             context.Database.Initialize(true);
+
+            return Enumerable.Empty<string>();
         }
 
         #endregion
@@ -26,7 +28,7 @@ namespace DemoWebApp.Models.Fluent
     //[ExportMetadata("DemoName","conventions")]
     public class InsertKidDemo : IDemo
     {
-        public void Run()
+        public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
             var context = new FamilyMembersWithFluentConfiguration();
@@ -41,7 +43,37 @@ namespace DemoWebApp.Models.Fluent
             context.Messages.Add(message);
 
             context.SaveChanges();
+
+            return Enumerable.Empty<string>();
         }
+    }
+
+    [ExportDemo("optional birthday (fluent)")]
+    public class CanSaveDadWithoutBirthDayDemo : IDemo
+    {
+        #region Implementation of IDemo
+
+        public IEnumerable<string> Run()
+        {
+            Database.SetInitializer(new OrtmanFamilyInitializer());
+            var context = new FamilyMembersWithFluentConfiguration();
+
+            var charles = new Dad()
+            {
+                FirstName = "Charles",
+                Address =  new Address()
+            };
+
+            context.Dads.Add(charles);
+
+            context.Messages.Add(new Message("Inserted dad [charles] without setting a birthday"));
+
+            context.SaveChanges();
+
+            return Enumerable.Empty<string>();
+        }
+
+        #endregion
     }
 
     public class FamilyMembersWithFluentConfiguration : DbContext
@@ -110,7 +142,7 @@ namespace DemoWebApp.Models.Fluent
 
         public string FirstName { get; set; }
 
-        public DateTime DayOfBirth { get; set; }
+        public DateTime? DayOfBirth { get; set; }
 
         public Address Address { get; set; }
 

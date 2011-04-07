@@ -14,7 +14,8 @@ namespace DemoWebApp.Controllers
         public ActionResult Index(string demoName)
         {
             var demoService = new DemoSystem();
-            demoService.RunDemo(demoName);
+            var errorMessages = demoService.RunDemo(demoName);
+            TempData["errorMessages"] = errorMessages;
 
             return RedirectToRoute("DumpUrl");
         }

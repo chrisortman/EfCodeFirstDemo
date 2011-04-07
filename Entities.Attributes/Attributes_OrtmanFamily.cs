@@ -11,12 +11,14 @@ namespace DemoWebApp.Models.Attributes
     {
         #region Implementation of IDemo
 
-        public void Run()
+        public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
             var context = new FamilyMembersWithAttributes();
             context.Database.Delete();
             context.Database.Initialize(true);
+
+            return Enumerable.Empty<string>();
         }
 
         #endregion
@@ -25,7 +27,7 @@ namespace DemoWebApp.Models.Attributes
     [ExportDemo("insert kid (attributes)")]
     public class InsertKidDemo : IDemo
     {
-        public void Run()
+        public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
             var context = new FamilyMembersWithAttributes();
@@ -39,6 +41,8 @@ namespace DemoWebApp.Models.Attributes
             var message = new Message("Data inserted via attributes demo");
             context.Messages.Add(message);
             context.SaveChanges();
+
+            return Enumerable.Empty<string>();
         }
     }
 

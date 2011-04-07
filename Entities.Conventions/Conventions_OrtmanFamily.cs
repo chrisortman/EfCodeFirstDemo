@@ -10,12 +10,14 @@ namespace DemoWebApp.Models.Conventions
     {
         #region Implementation of IDemo
 
-        public void Run()
+        public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
             var context = new FamilyMembersWithConventions();
             context.Database.Delete();
             context.Database.Initialize(true);
+
+            return Enumerable.Empty<string>();
         }
 
         #endregion
@@ -25,7 +27,7 @@ namespace DemoWebApp.Models.Conventions
     //[ExportMetadata("DemoName","conventions")]
     public class InsertKidDemo : IDemo
     {
-        public void Run()
+        public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
             var context = new FamilyMembersWithConventions();
@@ -40,6 +42,7 @@ namespace DemoWebApp.Models.Conventions
             context.Messages.Add(message);
 
             context.SaveChanges();
+            return Enumerable.Empty<string>();
         }
     }
 
