@@ -23,3 +23,6 @@ System.IO.IOException: The process cannot access the file 'C:\Users\ChrisO\AppDa
 2011-04-07 10:44:17,851 [15] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
 2011-04-07 10:49:17,875 [6] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
 2011-04-07 10:54:17,889 [16] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
+2011-04-07 10:59:17,908 [17] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
+2011-04-07 11:04:17,929 [17] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
+2011-04-07 11:09:17,947 [3] INFO  Rhino.Licensing.LicenseValidator [(null)] - License expiration date is 08/30/2011 10:23:45
