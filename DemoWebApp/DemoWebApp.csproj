@@ -38,6 +38,9 @@
       <Private>True</Private>
       <HintPath>..\packages\EntityFramework.4.1.10311.0\lib\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender.v4.0">
+      <HintPath>..\packages\EntityFrameworkProfiler.1.0.0.836\lib\Net40\HibernatingRhinos.Profiler.Appender.v4.0.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -77,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\EntityFramework.SqlServerCompact.cs" />
+    <Compile Include="App_Start\EntityFrameworkProfiler.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\DumpController.cs" />
     <Compile Include="Global.asax.cs">

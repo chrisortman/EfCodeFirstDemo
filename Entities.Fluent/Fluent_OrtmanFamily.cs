@@ -84,7 +84,7 @@ namespace DemoWebApp.Models.Fluent
 
         public DbSet<Dad> Dads { get; set; }
         public DbSet<Message> Messages { get; set; }
-
+        public DbSet<Kid> Kids { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             
@@ -167,11 +167,21 @@ namespace DemoWebApp.Models.Fluent
 
         public string Name { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         public TimeSpan Age
         {
-            get { return DateTime.Now - Birthday; }
+            get
+            {
+                if(Birthday.HasValue)
+                {
+                    return DateTime.Now - Birthday.Value;
+                }
+                else
+                {
+                    return TimeSpan.FromDays(0);
+                }
+            }
         }
 
         public override string ToString()
