@@ -82,10 +82,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Fluent\Fluent_OrtmanFamily.cs" />
-    <Compile Include="Models\IDemo.cs" />
-    <Compile Include="Models\Reset.cs" />
-    <Compile Include="Models\SqlMapper.cs" />
+    <Compile Include="Models\ColumnModel.cs" />
+    <Compile Include="Models\DemoSystem.cs" />
+    <Compile Include="Models\DumpModel.cs" />
+    <Compile Include="Models\TableModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,11 +138,27 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Attributes\" />
-    <Folder Include="Models\Conventions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{C782F4B8-D272-4EC1-A032-C5C0550A9EFA}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities.Attributes\Entities.Attributes.csproj">
+      <Project>{EDA27FB9-BCF7-485F-AEEF-56990B800326}</Project>
+      <Name>Entities.Attributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities.Conventions\Entities.Conventions.csproj">
+      <Project>{257AF758-6D5A-47A0-95EA-FA17B2C862E1}</Project>
+      <Name>Entities.Conventions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities.Fluent\Entities.Fluent.csproj">
+      <Project>{54220A62-BC99-45AE-9C5D-12E76F524BF2}</Project>
+      <Name>Entities.Fluent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

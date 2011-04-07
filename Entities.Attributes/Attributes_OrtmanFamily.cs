@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 
-namespace DemoWebApp.Models.Fluent
+namespace DemoWebApp.Models.Attributes
 {
-        [ExportDemo("reset - fluent")]
+    [ExportDemo("reset - attributes")]
     public class Reset : IDemo
     {
         #region Implementation of IDemo
@@ -13,22 +14,21 @@ namespace DemoWebApp.Models.Fluent
         public void Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
-            var context = new FamilyMembersWithFluentConfiguration();
+            var context = new FamilyMembersWithAttributes();
             context.Database.Delete();
             context.Database.Initialize(true);
         }
 
         #endregion
     }
-    [ExportDemo("fluent")]
-    //[Export(typeof(IDemo))]
-    //[ExportMetadata("DemoName","conventions")]
+
+    [ExportDemo("insert kid (attributes)")]
     public class Demo : IDemo
     {
         public void Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
-            var context = new FamilyMembersWithFluentConfiguration();
+            var context = new FamilyMembersWithAttributes();
 
             //since i know i've only just created 1 dad, i just hardcode the ID
             var chris = context.Dads.First(x => x.FirstName == "Chris");
@@ -36,49 +36,21 @@ namespace DemoWebApp.Models.Fluent
             var clara = new Kid() {Name = "Clara", Birthday = DateTime.Parse("1/21/2009")};
             chris.Kids.Add(clara);
 
-            var message = new Message("Data inserted via conventions demo");
+            var message = new Message("Data inserted via attributes demo");
             context.Messages.Add(message);
-
             context.SaveChanges();
         }
     }
 
-    public class FamilyMembersWithFluentConfiguration : DbContext
+    public class FamilyMembersWithAttributes : DbContext
     {
-        public FamilyMembersWithFluentConfiguration() : base("FamilyMembers")
+        public FamilyMembersWithAttributes() : base("FamilyMembers")
         {
         }
 
         public DbSet<Dad> Dads { get; set; }
+
         public DbSet<Message> Messages { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            var dadEntity = modelBuilder.Entity<Dad>();
-
-            dadEntity
-                .HasKey(x => x.ID);
-            dadEntity.Property(x => x.FirstName);
-            dadEntity.Property(x => x.DayOfBirth);
-            //no way to say that address on dad is complex
-            dadEntity.HasMany(x => x.Kids).WithOptional();
-            
-                
-            var messageEntity = modelBuilder.Entity<Message>();
-            messageEntity.HasKey(x => x.ID);
-            messageEntity.Property(x => x.Text);
-
-            var addressValueObject = modelBuilder.ComplexType<Address>();
-            addressValueObject.Property(x => x.City);
-            addressValueObject.Property(x => x.State);
-            addressValueObject.Property(x => x.Zip);
-
-            var kidEntity = modelBuilder.Entity<Kid>();
-            kidEntity.HasKey(x => x.ID);
-            kidEntity.Property(x => x.Name);
-            kidEntity.Property(x => x.Birthday);
-
-        }
     }
 
     public class Message
@@ -92,11 +64,13 @@ namespace DemoWebApp.Models.Fluent
             Text = text;
         }
 
+        [Key]
         public int ID { get; set; }
 
+        [Column]
         public string Text { get; set; }
     }
-    
+    [Table("Dads")]
     public class Dad
     {
         public Dad()
@@ -104,10 +78,13 @@ namespace DemoWebApp.Models.Fluent
             Kids = new List<Kid>();
         }
 
+        [Key]
         public int ID { get; set; }
 
+        [Column]
         public string FirstName { get; set; }
 
+        [Column]
         public DateTime DayOfBirth { get; set; }
 
         public Address Address { get; set; }
@@ -129,10 +106,13 @@ namespace DemoWebApp.Models.Fluent
 
     public class Kid
     {
+        [Key]
         public int ID { get; set; }
 
+        [Column]
         public string Name { get; set; }
 
+        [Column]
         public DateTime Birthday { get; set; }
 
         public TimeSpan Age
@@ -148,12 +128,16 @@ namespace DemoWebApp.Models.Fluent
         }
     }
 
+    [ComplexType]
     public class Address
     {
+        [Column]
         public string City { get; set; }
 
+        [Column]
         public string State { get; set; }
 
+        [Column]
         public string Zip { get; set; }
 
         public override string ToString()
@@ -162,9 +146,9 @@ namespace DemoWebApp.Models.Fluent
         }
     }
 
-    public class OrtmanFamilyInitializer : DropCreateDatabaseAlways<FamilyMembersWithFluentConfiguration>
+    public class OrtmanFamilyInitializer : DropCreateDatabaseAlways<FamilyMembersWithAttributes>
     {
-        protected override void Seed(FamilyMembersWithFluentConfiguration context)
+        protected override void Seed(FamilyMembersWithAttributes context)
         {
             var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.FirstName == "Chris");
             if(chris != null)
@@ -203,7 +187,8 @@ namespace DemoWebApp.Models.Fluent
             };
 
             context.Dads.Add(chris);
+
+            base.Seed(context);
         }
     }
-
 }

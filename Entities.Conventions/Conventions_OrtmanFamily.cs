@@ -20,7 +20,7 @@ namespace DemoWebApp.Models.Conventions
 
         #endregion
     }
-    [ExportDemo("conventions")]
+    [ExportDemo("insert kid (conventions)")]
     //[Export(typeof(IDemo))]
     //[ExportMetadata("DemoName","conventions")]
     public class Demo : IDemo

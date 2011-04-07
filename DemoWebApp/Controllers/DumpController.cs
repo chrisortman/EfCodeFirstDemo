@@ -6,16 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using DemoWebApp.Models;
 using SqlMapper;
 
 namespace DemoWebApp.Controllers
 {
-    public class DumpModel
-    {
-        public IEnumerable<string> Demos { get; set; }
-        public IEnumerable<Table> Tables { get; set; }
-    }
-
     public class DumpController : Controller
     {
         //
@@ -23,7 +18,7 @@ namespace DemoWebApp.Controllers
         
         public ActionResult Index()
         {
-            List<Table> tables = new List<Table>();
+            List<TableModel> tables = new List<TableModel>();
 
             var connectionString = ConfigurationManager.ConnectionStrings["FamilyMembers"].ConnectionString;
 
@@ -43,7 +38,7 @@ namespace DemoWebApp.Controllers
                         {
                             continue;
                         }
-                        var table = new Table()
+                        var table = new TableModel()
                         {
                             Name = schemaTable.TABLE_NAME
                         };
@@ -53,7 +48,7 @@ namespace DemoWebApp.Controllers
                                 "select * from information_schema.columns where TABLE_NAME = @TableName",
                                 new {TableName = table.Name});
 
-                        table.Columns = columns.Select(x => new Column()
+                        table.Columns = columns.Select(x => new ColumnModel()
                         {
                             Name = x.COLUMN_NAME,
                             Type = x.DATA_TYPE + "(" + x.CHARACTER_MAXIMUM_LENGTH + ")",
@@ -80,7 +75,7 @@ namespace DemoWebApp.Controllers
                 }
             }
 
-            var demoSvc = new DemoService();
+            var demoSvc = new DemoSystem();
 
 
             return View(new DumpModel()
@@ -90,23 +85,5 @@ namespace DemoWebApp.Controllers
             });
         }
 
-    }
-
-    public class Table
-    {
-        public string Name { get; set; }
-        public Column[] Columns { get; set; }
-        public List<object[]> Data { get; set; }
-
-        public Table()
-        {
-            Data = new List<object[]>();
-        }
-    }
-
-    public class Column
-    {
-        public string Name { get; set; }
-        public string Type { get; set; }
     }
 }
