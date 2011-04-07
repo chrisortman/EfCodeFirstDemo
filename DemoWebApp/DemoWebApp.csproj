@@ -82,10 +82,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Attributes\Attributes_OrtmanFamily.cs" />
-    <Compile Include="Models\Conventions\Conventions_OrtmanFamily.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Models\Fluent\Fluent_OrtmanFamily.cs" />
     <Compile Include="Models\IDemo.cs" />
     <Compile Include="Models\Reset.cs" />
     <Compile Include="Models\SqlMapper.cs" />
@@ -141,7 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Fluent\" />
+    <Folder Include="Models\Attributes\" />
+    <Folder Include="Models\Conventions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
