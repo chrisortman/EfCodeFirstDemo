@@ -19,14 +19,13 @@ namespace DemoWebApp.Models
         }
 
         public IEnumerable<string> ListDemos()
-        {            
+        {
             var exports = _container.GetExports<IDemo, IDemoMetadata>(null);
 
-            foreach(var exp in exports)
-            {
-                yield return exp.Metadata.DemoName;
-            }
-
+            return from ex in exports
+                   orderby ex.Metadata.DemoName
+                   select ex.Metadata.DemoName;
+            
         }
 
         public IEnumerable<string> RunDemo(string demoName)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using Common;
 
 namespace DemoWebApp.Models.Fluent
 {
@@ -26,17 +27,7 @@ namespace DemoWebApp.Models.Fluent
             {
                 context.Dads.Add(chris);
 
-                var errors = context.GetValidationErrors();
-                foreach(var error in errors)
-                {
-                    errorMessages.Add("Validation error on " + error.Entry.Entity.GetType().FullName);
-                    foreach(var errorMessage in error.ValidationErrors)
-                    {
-                        errorMessages.Add(
-                            "Property " + errorMessage.PropertyName + " " + errorMessage.ErrorMessage);
-                    }
-                }
-                errorMessages.Add("Inserted dad [charles] without setting a birthday");
+                errorMessages.AddRange(ValidationHelper.ExtractValidationMessages(context));
 
                 context.SaveChanges();
             }

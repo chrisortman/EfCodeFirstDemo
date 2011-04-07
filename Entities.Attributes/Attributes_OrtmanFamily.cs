@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
+using Entities.Attributes;
 
 namespace DemoWebApp.Models.Attributes
 {
@@ -86,9 +87,10 @@ namespace DemoWebApp.Models.Attributes
         public int ID { get; set; }
 
         [Column]
+        [MaxLength(5, ErrorMessage = "First name can only be 5 characters")]
         public string FirstName { get; set; }
 
-        [Column]
+        [Column]        
         public DateTime DayOfBirth { get; set; }
 
         public Address Address { get; set; }
@@ -98,7 +100,13 @@ namespace DemoWebApp.Models.Attributes
 
         public override string ToString()
         {
+            return String.Format("[{0}] - {1}", ID, FirstName);
+        }
+
+        public string LongToString()
+        {
             var s = String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, FirstName, DayOfBirth, Address);
+
             s += String.Format("\t{0} has {1} kids", FirstName, Kids.Count);
             if(Kids.Count > 0)
             {
@@ -148,6 +156,9 @@ namespace DemoWebApp.Models.Attributes
         public string State { get; set; }
 
         [Column]
+        [MinLength(5,ErrorMessageResourceName = "FiveDigitZipCodePlease",ErrorMessageResourceType = typeof(ErrorMessages))]
+        [MaxLength(5,ErrorMessageResourceName = "FiveDigitZipCodePlease",ErrorMessageResourceType = typeof(ErrorMessages))]        
+        //[StringLength(5,MinimumLength = 5,ErrorMessageResourceName = "FiveDigitZipCodePlease",ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Zip { get; set; }
 
         public override string ToString()
