@@ -23,7 +23,7 @@ namespace DemoWebApp.Models.Conventions
     [ExportDemo("insert kid (conventions)")]
     //[Export(typeof(IDemo))]
     //[ExportMetadata("DemoName","conventions")]
-    public class Demo : IDemo
+    public class InsertKidDemo : IDemo
     {
         public void Run()
         {

@@ -23,7 +23,7 @@ namespace DemoWebApp.Models.Attributes
     }
 
     [ExportDemo("insert kid (attributes)")]
-    public class Demo : IDemo
+    public class InsertKidDemo : IDemo
     {
         public void Run()
         {

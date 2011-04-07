@@ -23,7 +23,7 @@ namespace DemoWebApp.Models.Fluent
     [ExportDemo("insert kid (fluent)")]
     //[Export(typeof(IDemo))]
     //[ExportMetadata("DemoName","conventions")]
-    public class Demo : IDemo
+    public class InsertKidDemo : IDemo
     {
         public void Run()
         {
