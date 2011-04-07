@@ -30,6 +30,7 @@ namespace DemoWebApp.Models.Fluent
                 var birthDayProperty = _context.Entry(k).Property(x => x.Birthday);
                 if(birthDayProperty.IsModified)
                 {
+                    
                     if(birthDayProperty.OriginalValue.Value.Month != birthDayProperty.CurrentValue.Value.Month)
                     {
                         Log("Birthday month changed for {0} from {1} to {2}", k.Name, birthDayProperty.OriginalValue,

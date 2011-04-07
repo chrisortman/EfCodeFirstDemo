@@ -92,10 +92,11 @@ namespace DemoWebApp.Models.Fluent
 
             dadEntity
                 .HasKey(x => x.ID);
-            dadEntity.Property(x => x.FirstName);
+            dadEntity.Property(x => x.FirstName).HasColumnName("MyFirstNameColumn");
             dadEntity.Property(x => x.DayOfBirth);
             //no way to say that address on dad is complex
-            dadEntity.HasMany(x => x.Kids).WithRequired().Map(x => x.MapKey("Fluent_DadID"));
+            dadEntity.HasMany(x => x.Kids)
+                .WithRequired().Map(x => x.MapKey("Fluent_DadID"));
             
                 
             var messageEntity = modelBuilder.Entity<Message>();

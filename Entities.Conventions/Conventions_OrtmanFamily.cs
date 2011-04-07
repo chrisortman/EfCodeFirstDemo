@@ -30,14 +30,24 @@ namespace DemoWebApp.Models.Conventions
         public IEnumerable<string> Run()
         {
             Database.SetInitializer(new OrtmanFamilyInitializer());
+            
             var context = new FamilyMembersWithConventions();
-
+            
             //since i know i've only just created 1 dad, i just hardcode the ID
-            var chris = context.Dads.First(x => x.FirstName == "Chris");
+            var chris = context.Dads.First(x => x.Name == "Chris");
 
             var clara = new Kid() {Name = "Clara", Birthday = DateTime.Parse("1/21/2009")};
             chris.Kids.Add(clara);
 
+            var lincoln = new Kid()
+            {
+                Name = "Lincoln",
+                Birthday = DateTime.Parse("3/25/2010")
+            };
+            chris.Kids.Add(lincoln);
+
+            var stan = new Dad() {Name = "Stan", Address = new Address()};
+            
             var message = new Message("Data inserted via conventions demo");
             context.Messages.Add(message);
 
@@ -81,7 +91,7 @@ namespace DemoWebApp.Models.Conventions
 
         public int ID { get; set; }
 
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
         public DateTime DayOfBirth { get; set; }
 
@@ -92,8 +102,8 @@ namespace DemoWebApp.Models.Conventions
 
         public override string ToString()
         {
-            var s = String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, FirstName, DayOfBirth, Address);
-            s += String.Format("\t{0} has {1} kids", FirstName, Kids.Count);
+            var s = String.Format("[{0}] {1} was born on {2} and lives at {3}\n", ID, Name, DayOfBirth, Address);
+            s += String.Format("\t{0} has {1} kids", Name, Kids.Count);
             if(Kids.Count > 0)
             {
                 s += String.Format(" their names are {0}", String.Join(",", Kids.Select(x => x.ToString())));
@@ -141,7 +151,7 @@ namespace DemoWebApp.Models.Conventions
     {
         protected override void Seed(FamilyMembersWithConventions context)
         {
-            var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.FirstName == "Chris");
+            var chris = context.Dads.Include(x => x.Kids).FirstOrDefault(x => x.Name == "Chris");
             if(chris != null)
             {
                 chris.Kids.Clear();
@@ -159,7 +169,7 @@ namespace DemoWebApp.Models.Conventions
 
             chris = new Dad
             {
-                FirstName = "Chris",
+                Name = "Chris",
                 DayOfBirth = new DateTime(1979, 12, 6),
                 Address = ethan,
                 Kids = new List<Kid>

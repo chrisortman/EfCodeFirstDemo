@@ -20,6 +20,11 @@ namespace DemoWebApp.Models.Fluent
             var secondContext = new FamilyMembersWithFluentConfiguration();
             var chris_by_id = secondContext.Dads.Find(1);
 
+
+            var thirdContext = new FamilyMembersWithFluentConfiguration();
+            //var chris_by_sql = thirdContext.Dads.SqlQuery("select * from dads inner join kids on dads.id = kids.fluent_dadid where dads.ID = 1");
+
+            //var xxx = chris_by_sql.ToArray();
             return Enumerable.Empty<string>();
         }
 

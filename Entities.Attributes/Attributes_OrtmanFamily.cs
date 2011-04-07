@@ -75,7 +75,7 @@ namespace DemoWebApp.Models.Attributes
         [Column]
         public string Text { get; set; }
     }
-    [Table("Dads")]
+    [Table("SugarDaddies")]
     public class Dad
     {
         public Dad()
@@ -90,7 +90,7 @@ namespace DemoWebApp.Models.Attributes
         [MaxLength(5, ErrorMessage = "First name can only be 5 characters")]
         public string FirstName { get; set; }
 
-        [Column]        
+        [Column("Birthday")]        
         public DateTime DayOfBirth { get; set; }
 
         public Address Address { get; set; }
